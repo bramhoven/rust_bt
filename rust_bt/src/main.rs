@@ -15,7 +15,7 @@ fn main() {
     //start time
     let start = Instant::now();
 
-    let data = handle_ohlc("/Users/jarlen/NHNTrading/rust_bt/rust_bt/data/SP500_DJIA_fyear_clean.csv").expect("Failed to load CSV data");
+    let data = handle_ohlc("./data/SP500_DJIA_2m_clean.csv").expect("Failed to load CSV data");
 
     let cash = 100_000.0;
     let commission = 0.0;
