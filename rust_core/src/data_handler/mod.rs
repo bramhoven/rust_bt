@@ -4,8 +4,6 @@ use crate::engine::OhlcData;
 use crate::live_engine::LiveData;
 use crate::live_engine::TickSnapshot;
 use std::collections::HashMap;
-use serde_json::Value;
-use regex::Regex;
 use nom;
 
 // data handler for simple csv

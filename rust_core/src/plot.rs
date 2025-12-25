@@ -1,13 +1,13 @@
 use plotters::prelude::*;
-use chrono::NaiveDateTime;
+use chrono::{DateTime, NaiveDateTime}   ;
 
 /// function plot_equity that plots equity values as a function of time
-/// it takes a slice of (naivedatetime, equity_value) tuples and an output file path
+/// it takes a slice of (NaiveDateTime, equity_value) tuples and an output file path
 pub fn plot_equity(data: &[(NaiveDateTime, f64)], output_path: &str) -> Result<(), Box<dyn std::error::Error>> {
     // determine the minimum and maximum dates for the x-axis
     let start_date = data.first().unwrap().0;
     let end_date = data.last().unwrap().0;
-    // convert naivedatetime to timestamp (i64) for plotting
+    // convert datetime to timestamp (i64) for plotting
     let start_ts = start_date.and_utc().timestamp();
     let end_ts = end_date.and_utc().timestamp();
 
@@ -30,14 +30,14 @@ pub fn plot_equity(data: &[(NaiveDateTime, f64)], output_path: &str) -> Result<(
     chart.configure_mesh()
         .x_label_formatter(&|x| {
             // convert timestamp to datetime
-            let dt = NaiveDateTime::from_timestamp(*x, 0);
+            let dt = DateTime::from_timestamp(*x, 0).expect("invalid or out-of-range datetime").naive_utc();
             dt.format("%Y-%m-%d").to_string()
         })
         .x_labels(5)
         .y_labels(5)
         .draw()?;
 
-    // draw the equity line series, converting the naivedatetime for plotting
+    // draw the equity line series, converting the datetime for plotting
     chart.draw_series(LineSeries::new(
         data.iter().map(|&(time, equity)| (time.and_utc().timestamp(), equity)),
         &BLUE,
@@ -76,7 +76,7 @@ pub fn plot_equity_and_benchmark(
     } else {
         end_date_benchmark
     };
-    // convert naivedatetime into timestamp (i64)
+    // convert datetime into timestamp (i64)
     let start_ts = start_date.and_utc().timestamp();
     let end_ts = end_date.and_utc().timestamp();
 
@@ -106,7 +106,7 @@ pub fn plot_equity_and_benchmark(
         .configure_mesh()
         .x_label_formatter(&|x| {
             // convert timestamp to datetime
-            let dt = NaiveDateTime::from_timestamp(*x, 0);
+            let dt = DateTime::from_timestamp(*x, 0).expect("invalid or out-of-range datetime").naive_utc();
             dt.format("%Y-%m-%d").to_string()
         })
         .x_labels(5)
@@ -150,7 +150,7 @@ pub fn plot_margin_usage(data: &[(NaiveDateTime, f64)], output_path: &str) -> Re
     // determine the minimum and maximum dates for the x-axis
     let start_date = data.first().unwrap().0;
     let end_date = data.last().unwrap().0;
-    // convert naivedatetime to timestamp (i64) for plotting
+    // convert datetime to timestamp (i64) for plotting
     let start_ts = start_date.and_utc().timestamp();
     let end_ts = end_date.and_utc().timestamp();
 
@@ -182,14 +182,14 @@ pub fn plot_margin_usage(data: &[(NaiveDateTime, f64)], output_path: &str) -> Re
     chart.configure_mesh()
         .x_label_formatter(&|x| {
             // convert timestamp to datetime
-            let dt = NaiveDateTime::from_timestamp(*x, 0);
+            let dt = DateTime::from_timestamp(*x, 0).expect("invalid or out-of-range datetime").naive_utc();
             dt.format("%Y-%m-%d").to_string()
         })
         .x_labels(5)
         .y_labels(5)
         .draw()?;
 
-    // draw the margin usage series, converting the naivedatetime for plotting
+    // draw the margin usage series, converting the datetime for plotting
     chart.draw_series(LineSeries::new(
         data.iter().map(|&(time, margin_usage)| (time.and_utc().timestamp(), margin_usage)),
         &BLUE,
