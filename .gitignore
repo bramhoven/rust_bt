@@ -40,3 +40,5 @@ temp/
 logs/
 *.log
 
+# Generated backtesting output
+rust_bt/output_*
