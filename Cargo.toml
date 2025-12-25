@@ -5,8 +5,6 @@ members = [
     "rust_bt",
     "rust_live",
     "rust_ml",
-    "api_test",
-
 ]
 
 [profile.release]
